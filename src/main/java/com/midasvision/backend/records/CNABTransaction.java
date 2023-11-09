@@ -9,6 +9,7 @@ public record CNABTransaction(
         BigDecimal valor,
         Long cpf,
         String cartao,
+        String hora,
         String donoDaLoja,
         String nomeDaLoja) {
 

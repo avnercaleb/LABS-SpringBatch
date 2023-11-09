@@ -3,6 +3,8 @@ package com.midasvision.backend.records;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public record Transaction(
 
@@ -15,4 +17,29 @@ public record Transaction(
         Time hora,
         String donoDaLoja,
         String nomeDaLoja) {
+
+        public Transaction withValor(BigDecimal valor) {
+            return new Transaction(
+                    this.id(), this.tipo(), this.data(),
+                    valor, this.cpf(), this.cartao(), this.hora(),
+                    this.donoDaLoja(), this.nomeDaLoja());
+        }
+
+        public Transaction withData(String data) throws ParseException {
+            var dateFormat = new SimpleDateFormat("yyyyMMdd");
+            var date = dateFormat.parse(data);
+
+            return new Transaction(
+                    this.id(), this.tipo(), new Date(date.getTime()), valor, this.cpf(),
+                    this.cartao(), this.hora(), this.donoDaLoja(), this.nomeDaLoja());
+        }
+
+        public Transaction withHora(String hora) throws ParseException {
+                var dateFormat = new SimpleDateFormat("HHmmss");
+                var date = dateFormat.parse(hora);
+
+            return new Transaction(
+                    this.id(), this.tipo(), this.data(), valor, this.cpf(),
+                    this.cartao(), new Time(date.getTime()), this.donoDaLoja(), this.nomeDaLoja());
+        }
 }
